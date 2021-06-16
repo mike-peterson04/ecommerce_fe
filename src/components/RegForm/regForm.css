@@ -2,3 +2,12 @@
     width: 100%;
 }
 
+.form label {
+    margin-top: 10px;
+    margin-bottom: 5px;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.form input {
+    margin-bottom: 3px;
+}
