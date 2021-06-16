@@ -1,31 +1,20 @@
 import React from 'react';
 import useCustomForm from '../CustomHooks/useCustomForm';
 import './regForm.css';
-import axios from 'axios';
 
 const RegForm = (props) => {
-
-    const registerUser = async(userReg) => {
-        try {
-            let {data} = await axios.post(`https://localhost:44394/api/authentication`, userReg);
-            console.log('registered post', data);
-        }
-        catch(error){
-            alert(`Whoops! ${error}. Looks like we're having some technical difficulties.Try again later!`)
-        }
-    }
-
+    
     const Submittal = () => {
         const userReg = {
-            firstname: inputs.firstName,
-            lastname: inputs.lastName,
-            username: inputs.userName,
-            password: inputs.password,
-            email: inputs.email,
-            phonenumber: inputs.phoneNumber
+            FirstName: inputs.firstName,
+            LastName: inputs.lastName,
+            UserName: inputs.userName,
+            Password: inputs.password,
+            Email: inputs.email,
+            PhoneNumber: inputs.phoneNumber
         }
         console.log("registered", userReg); 
-        registerUser(userReg);
+        props.registerUser(userReg);
     }
 
     const {inputs, handleChange, handleSubmit} = useCustomForm(Submittal);
