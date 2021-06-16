@@ -1,0 +1,11 @@
+.container-fluid {
+    width: 100vw;
+    height: 100vh;
+    padding: 0;
+}
+
+.reg-form-wrapper {
+    width: 20vw;
+    height: 20vh;
+    margin-left: 30px;
+}

@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import 'bootstrap/dist/css/bootstrap.css';
 import './app.css';
+import RegForm from './RegForm/regForm';
 
 class App extends Component {
     constructor(props) {
@@ -13,7 +14,9 @@ class App extends Component {
     render() {
         return (
             <div className="container-fluid">
-                <h1>Test</h1>
+                <div className = "reg-form-wrapper my-5">
+                    <RegForm />
+                </div>
             </div>
         )
     }
