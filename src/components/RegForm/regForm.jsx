@@ -6,7 +6,15 @@ import './regForm.css';
 const RegForm = (props) => {
 
     const Submittal = () => {
-        console.log(); 
+        const userReg = {
+            FirstName: inputs.firstName,
+            LastName: inputs.lastName,
+            UserName: inputs.userName,
+            Password: inputs.password,
+            Email: inputs.email,
+            PhoneNumber: inputs.phoneNumber
+        }
+        console.log("registered", userReg); 
     }
 
     const {inputs, handleChange, handleSubmit} = useCustomForm(Submittal);
@@ -16,22 +24,22 @@ const RegForm = (props) => {
             <form onSubmit = {handleSubmit} >
                 <div className="form-group d-flex flex-column">
                     <label htmlFor="firstName">First Name: </label>
-                    <input className="form-rounded" type="text" name="firstName" onChange={handleChange} value={inputs.firstName} spellcheck="false"/>
+                    <input className="form-rounded" type="text" name="firstName" onChange={handleChange} value={inputs.firstName} spellCheck="false"/>
 
                     <label htmlFor="lastName">Last Name: </label>
-                    <input className="form-rounded" type="text" name="lastName" onChange={handleChange} value={inputs.lastName} spellcheck="false"/>
+                    <input className="form-rounded" type="text" name="lastName" onChange={handleChange} value={inputs.lastName} spellCheck="false"/>
 
                     <label htmlFor="userName">Username: </label>
-                    <input className="form-rounded" type="text" name="userName" onChange={handleChange} value={inputs.userName} spellcheck="false"/>
+                    <input className="form-rounded" type="text" name="userName" onChange={handleChange} value={inputs.userName} spellCheck="false"/>
 
                     <label htmlFor="password">Password: </label>
-                    <input className="form-rounded" type="text" name="password" onChange={handleChange} value={inputs.password} spellcheck="false"/>
+                    <input className="form-rounded" type="text" name="password" onChange={handleChange} value={inputs.password} spellCheck="false"/>
 
                     <label htmlFor="email">Email: </label>
-                    <input className="form-rounded" type="text" name="email" onChange={handleChange} value={inputs.email} spellcheck="false"/>
+                    <input className="form-rounded" type="text" name="email" onChange={handleChange} value={inputs.email} spellCheck="false"/>
 
                     <label htmlFor="phoneNumber">Phone Number: </label>
-                    <input className="form-rounded" type="text" name="phoneNumber" onChange={handleChange} value={inputs.phoneNumber} spellcheck="false"/>
+                    <input className="form-rounded" type="text" name="phoneNumber" onChange={handleChange} value={inputs.phoneNumber} spellCheck="false"/>
                     <br/>
                     <button className="btn btn-success" type="submit">Sign Up!</button>
                 </div>
