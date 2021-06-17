@@ -3,11 +3,13 @@ import axios from 'axios';
 import 'bootstrap/dist/css/bootstrap.css';
 import './app.css';
 import RegForm from './RegForm/regForm';
+import Navbar from './navbar/navbar'
 
 class App extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            isVendor:false
 
         }
     }
@@ -26,9 +28,12 @@ class App extends Component {
 
     render() {
         return (
-            <div className="container-fluid">
-                <div className = "reg-form-wrapper my-5">
-                    <RegForm registerUser={(regUser) => this.registerUser(regUser)}/>
+            <div>
+                <Navbar vendor={this.state.isVendor}/>
+                <div className="container-fluid">
+                    <div className = "reg-form-wrapper my-5">
+                        <RegForm registerUser={(regUser) => this.registerUser(regUser)}/>
+                    </div>
                 </div>
             </div>
         )
