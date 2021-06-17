@@ -5,14 +5,25 @@ import './app.css';
 import RegForm from './RegForm/regForm';
 import LoginForm from './LoginForm/loginForm';
 import Navbar from './navbar/navbar'
+import ShoppingCart from './ShoppingCart/shoppingCart';
+import jwtDecode from 'jwt-decode';
 
 class App extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            isVendor:false
-
+            isVendor:false,
+            isLoggedIn:false,
+            user:{},
         }
+    }
+
+    componentDidMount(){
+        const jwt = localStorage.getItem('token');
+        try{
+            const user = jwtDecode(jwt);
+            this.setState({user});
+        } catch {}
     }
 
     // User password requires at least one digit 1-9!
@@ -33,6 +44,7 @@ class App extends Component {
             let {data} = await axios.post('https://localhost:44394/api/authentication/login/', userLogin);
             console.log('Logged in User', data);
             localStorage.setItem('token', data.token);
+            this.setState({isLoggedIn:true});
             // These two lines are for reference and can be removed later
             const tokenFromStorage = localStorage.getItem('token');
             console.log(tokenFromStorage);
@@ -49,6 +61,8 @@ class App extends Component {
                 <div className="container-fluid">
                     <div className = "reg-form-wrapper my-5">
                         <RegForm registerUser={(regUser) => this.registerUser(regUser)}/>
+                        <LoginForm loginUser={(loginUser) => this.loginUser(loginUser)}/>
+                        <ShoppingCart token={localStorage.token} user={this.state.user}/>
                     </div>
                 </div>
             </div>
