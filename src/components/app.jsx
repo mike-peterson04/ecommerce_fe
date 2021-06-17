@@ -15,6 +15,7 @@ class App extends Component {
             isVendor:false,
             isLoggedIn:false,
             user:{},
+            customer:{},
         }
     }
 
@@ -38,15 +39,65 @@ class App extends Component {
         }
     }
 
+    existingCustomer = async(token) =>{
+        debugger;
+        let config = {headers: { Authorization: `Bearer ${token}` }}
+        let user = jwtDecode(token);
+        user = user.id
+        let userInfo = await axios.get("https://localhost:44394/api/examples/user", config)
+        userInfo = userInfo.data;
+        let customers = await axios.get("https://localhost:44394/api/customer/all-customers", config)
+        customers = customers.data;
+        let customer = false
+        customers.forEach(match => {
+            console.log(match," ",user)
+            
+            if(match.userid==user){
+                
+                customer=match;
+            }
+        });
+        if (customer==false){
+            let packet = {
+                UserId:user,
+                FirstName:userInfo.firstName
+            }
+            customer = await axios.post("https://localhost:44394/api/customer/new_customer", packet, config);
+        }
+        customer = customer.data;
+        this.setState({customer:customer});
+
+
+
+
+    }
+    purge = () =>{
+
+    }
+
+    wipeout = () =>{
+        localStorage.removeItem("token")
+        this.setState({
+            isVendor:false,
+            isLoggedIn:false,
+            user:{},
+            customer:{},
+        })
+    }
+
     loginUser = async(userLogin) =>  {
         console.log("passed login param", userLogin)
         try{
             let {data} = await axios.post('https://localhost:44394/api/authentication/login/', userLogin);
             console.log('Logged in User', data);
             localStorage.setItem('token', data.token);
-            this.setState({isLoggedIn:true});
             // These two lines are for reference and can be removed later
             const tokenFromStorage = localStorage.getItem('token');
+            this.setState({
+                isLoggedIn:true,
+                user:jwtDecode(tokenFromStorage)
+            });
+            this.existingCustomer(tokenFromStorage)
             console.log(tokenFromStorage);
         }
         catch(error){
@@ -55,14 +106,21 @@ class App extends Component {
     }
 
     render() {
+        
         return (
             <div>
                 <Navbar vendor={this.state.isVendor}/>
-                <div className="container-fluid">
-                    <div className = "reg-form-wrapper my-5">
-                        <RegForm registerUser={(regUser) => this.registerUser(regUser)}/>
-                        <LoginForm loginUser={(loginUser) => this.loginUser(loginUser)}/>
-                        <ShoppingCart token={localStorage.token} user={this.state.user}/>
+                <div className="container-fluid col-md-8">
+                    <div className="row">
+                        <div className="col-sm">
+                        </div>
+                        <div className = "col-sm reg-form-wrapper my-5">
+                            <RegForm registerUser={(regUser) => this.registerUser(regUser)}/>
+                            <LoginForm loginUser={(loginUser) => this.loginUser(loginUser)}/>
+                            <ShoppingCart token={localStorage.token} user={this.state.user}/>
+                        </div>
+                        <div className="col-sm">
+                        </div>
                     </div>
                 </div>
             </div>
