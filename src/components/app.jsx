@@ -42,6 +42,7 @@ class App extends Component {
     }
 
     existingCustomer = async(token) =>{
+        
         let config = {headers: { Authorization: `Bearer ${token}` }}
         let user = jwtDecode(token);
         user = user.id
@@ -50,7 +51,9 @@ class App extends Component {
         let customer
         let userInfo
         try{
+            
             customer = await axios.get(url, config)
+            
             if(customer.data === ""){
 
             
@@ -107,7 +110,7 @@ class App extends Component {
     }
 
     getUserShoppingCart = async() => {
-        debugger
+        
         let token = localStorage.getItem('token');
         let config = {headers: { Authorization: `Bearer ${token}` }}
         let {data} = await axios.get('https://localhost:44394/api/shoppingcart/' + this.state.user.id, config);
