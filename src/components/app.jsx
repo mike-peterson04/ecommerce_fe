@@ -9,6 +9,7 @@ import Navbar from './navbar/navbar'
 import ShoppingCart from './ShoppingCart/shoppingCart';
 import jwtDecode from 'jwt-decode';
 import LogWrap from './logWrap/LogWrap';
+import ProductViewer from './ProductViewer/productViewer';
 
 class App extends Component {
     constructor(props) {
@@ -16,10 +17,12 @@ class App extends Component {
         this.state = {
             isVendor:false,
             isLoggedIn:false,
+            activeCategory:{id:0},
             user:{},
             customer:{},
             shoppingCart:[],
             productsInCart:[],
+            renderIndex:"initial"
         }
     }
 
@@ -27,6 +30,7 @@ class App extends Component {
         const jwt = localStorage.getItem('token');
         try{
             const user = jwtDecode(jwt);
+            this.getProducts()
             this.setState({user});
         } catch {}
     }
@@ -145,9 +149,43 @@ class App extends Component {
             return item !== e; 
         })});
     }
+    getProducts = async() =>{
+        let productReturn = [];
+        let products;
+
+        try{
+            products = await axios.get('https://localhost:44394/api/product/')
+            products = products.data;
+            
+            if (this.state.activeCategory.id !== 0){
+                for(let i = 0;i<products.length;i++){
+                    if(products[i].category === this.state.activeCategory){
+                        productReturn.push(products[i])
+                    }
+
+                }
+                if(productReturn.length === 0){
+                    if(this.state.renderIndex === 'initial'){
+                        this.State.renderIndex="default";
+                    }
+                    else{
+                        alert("No products were found that matched your request, showing all products")
+                    }
+                    
+                    
+                }
+            }
+            productReturn = products
+            this.setState({products:productReturn})
+
+        }
+        catch(e){
+            console.log(e," ",products)
+
+        }
+    } 
 
     render() {
-
         if (!this.state.isLoggedIn){
             return(
                 <div>
@@ -175,10 +213,7 @@ class App extends Component {
                         <div className="col-sm">
                         </div>
                         <div className = "col-sm reg-form-wrapper my-5">
-                            <RegForm registerUser={(regUser) => this.registerUser(regUser)}/>
-                            <LoginForm loginUser={(loginUser) => this.loginUser(loginUser)}/>
-                            <ProductForm />
-                            <ShoppingCart user={this.state.user} items={this.state.productsInCart} cart={this.state.shoppingCart} removeFromCart={(id) => this.removeFromCart(id)}/>
+                            <ProductViewer products={this.state.products}/>
                         </div>
                         <div className="col-sm">
                         </div>
