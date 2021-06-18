@@ -17,7 +17,8 @@ class App extends Component {
             isLoggedIn:false,
             user:{},
             customer:{},
-            cart:[],
+            shoppingCart:[],
+            productsInCart:[],
         }
     }
 
@@ -102,7 +103,8 @@ class App extends Component {
             });
             this.existingCustomer(tokenFromStorage)
             console.log(tokenFromStorage);
-            this.setState({cart: []});
+            this.setState({shoppingCart: []});
+            this.setState({productsInCart: []});
             this.getUserShoppingCart();
         }
         catch(error){
@@ -115,6 +117,7 @@ class App extends Component {
         let config = {headers: { Authorization: `Bearer ${token}` }}
         let {data} = await axios.get('https://localhost:44394/api/shoppingcart/' + this.state.user.id, config);
         console.log("shopping cart", data);
+        this.setState({shoppingCart: data})
         this.getProducts(config, data);
     }
 
@@ -122,7 +125,7 @@ class App extends Component {
         let items = data;
         for(let i = 0; i < items.length; i++){
             let {data} = await axios.get('https://localhost:44394/api/product/' + items[i].productId, config);
-            this.setState({cart:[...this.state.cart, data]});
+            this.setState({productsInCart:[...this.state.productsInCart, data]});
         }
     }
 
@@ -139,7 +142,7 @@ class App extends Component {
                             <RegForm registerUser={(regUser) => this.registerUser(regUser)}/>
                             <LoginForm loginUser={(loginUser) => this.loginUser(loginUser)}/>
                             <ProductForm />
-                            <ShoppingCart user={this.state.user} items={this.state.cart}/>
+                            <ShoppingCart user={this.state.user} items={this.state.productsInCart} cart={this.state.shoppingCart}/>
                         </div>
                         <div className="col-sm">
                         </div>
