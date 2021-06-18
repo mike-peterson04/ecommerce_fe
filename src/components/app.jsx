@@ -105,13 +105,20 @@ class App extends Component {
     }
 
     getUserShoppingCart = async() => {
-        debugger
         let token = localStorage.getItem('token');
         let config = {headers: { Authorization: `Bearer ${token}` }}
         let {data} = await axios.get('https://localhost:44394/api/shoppingcart/' + this.state.user.id, config);
         console.log("shopping cart", data);
         this.setState({cart: data});
+        this.getProducts(config);
+    }
 
+    getProducts = async(config) => {
+        let items = this.state.cart;
+        for(let i = 0; i < items.length; i++){
+            let {data} = await axios.get('https://localhost:44394/api/product/' + items[i].productId);
+            console.log(data);
+        }
     }
 
     render() {
