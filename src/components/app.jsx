@@ -45,26 +45,28 @@ class App extends Component {
         let config = {headers: { Authorization: `Bearer ${token}` }}
         let user = jwtDecode(token);
         user = user.id
-        let userInfo = await axios.get("https://localhost:44394/api/examples/user", config)
-        userInfo = userInfo.data;
-        let customers = await axios.get("https://localhost:44394/api/customer/all-customers", config)
-        customers = customers.data;
-        let customer = false
-        customers.forEach(match => {
-            console.log(match," ",user)
+        
+        let url = "https://localhost:44394/api/customer/"+user;
+        let customer
+        let userInfo
+        try{
+            customer = await axios.get(url, config)
+            if(customer.data === ""){
+
             
-            if(match.userid === user){
-            
-                customer=match;
+                userInfo = await axios.get("https://localhost:44394/api/examples/user", config)
+                userInfo = userInfo.data;
+                let packet = {
+                    UserId:user,
+                    FirstName:userInfo.firstName
+                }
+                customer = await axios.post("https://localhost:44394/api/customer/new_customer", packet, config);
             }
-        });
-        if (customer === false){
-            let packet = {
-                UserId:user,
-                FirstName:userInfo.firstName
             }
-            customer = await axios.post("https://localhost:44394/api/customer/new_customer", packet, config);
-        }
+            catch(e)
+            {
+                console.log(e, customer, userInfo)
+            }
         customer = customer.data;
         this.setState({customer:customer});
 
