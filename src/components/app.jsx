@@ -17,6 +17,7 @@ class App extends Component {
             isLoggedIn:false,
             user:{},
             customer:{},
+            cart:[],
         }
     }
 
@@ -41,7 +42,6 @@ class App extends Component {
     }
 
     existingCustomer = async(token) =>{
-        debugger;
         let config = {headers: { Authorization: `Bearer ${token}` }}
         let user = jwtDecode(token);
         user = user.id
@@ -69,11 +69,8 @@ class App extends Component {
             }
         customer = customer.data;
         this.setState({customer:customer});
-
-
-
-
     }
+
     purge = () =>{
 
     }
@@ -102,10 +99,21 @@ class App extends Component {
             });
             this.existingCustomer(tokenFromStorage)
             console.log(tokenFromStorage);
+            this.getUserShoppingCart();
         }
         catch(error){
             alert(`Whoops! ${error}. Looks like we're having some technical difficulties. Try again later!`);
         }
+    }
+
+    getUserShoppingCart = async() => {
+        debugger
+        let token = localStorage.getItem('token');
+        let config = {headers: { Authorization: `Bearer ${token}` }}
+        let {data} = await axios.get('https://localhost:44394/api/shoppingcart/' + this.state.user.id, config);
+        console.log("shopping cart", data);
+        this.setState({cart: data});
+
     }
 
     render() {
@@ -121,7 +129,7 @@ class App extends Component {
                             <RegForm registerUser={(regUser) => this.registerUser(regUser)}/>
                             <LoginForm loginUser={(loginUser) => this.loginUser(loginUser)}/>
                             <ProductForm />
-                            <ShoppingCart token={localStorage.token} user={this.state.user}/>
+                            <ShoppingCart user={this.state.user} items={this.state.cart}/>
                         </div>
                         <div className="col-sm">
                         </div>
