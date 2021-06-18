@@ -21,6 +21,7 @@ const RegForm = (props) => {
 
     return (
         <div className="form">
+            <h4>Sign Up</h4>
             <form onSubmit = {handleSubmit} >
                 <div className="form-group d-flex flex-column">
                     <label htmlFor="firstName">First Name: </label>

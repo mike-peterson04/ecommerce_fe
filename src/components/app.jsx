@@ -4,6 +4,7 @@ import 'bootstrap/dist/css/bootstrap.css';
 import './app.css';
 import RegForm from './RegForm/regForm';
 import LoginForm from './LoginForm/loginForm';
+import ProductForm from './ProductForm/productForm';
 import Navbar from './navbar/navbar'
 import ShoppingCart from './ShoppingCart/shoppingCart';
 import jwtDecode from 'jwt-decode';
@@ -52,12 +53,12 @@ class App extends Component {
         customers.forEach(match => {
             console.log(match," ",user)
             
-            if(match.userid==user){
-                
+            if(match.userid === user){
+            
                 customer=match;
             }
         });
-        if (customer==false){
+        if (customer === false){
             let packet = {
                 UserId:user,
                 FirstName:userInfo.firstName
@@ -117,6 +118,7 @@ class App extends Component {
                         <div className = "col-sm reg-form-wrapper my-5">
                             <RegForm registerUser={(regUser) => this.registerUser(regUser)}/>
                             <LoginForm loginUser={(loginUser) => this.loginUser(loginUser)}/>
+                            <ProductForm />
                             <ShoppingCart token={localStorage.token} user={this.state.user}/>
                         </div>
                         <div className="col-sm">
