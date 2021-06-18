@@ -102,6 +102,7 @@ class App extends Component {
             });
             this.existingCustomer(tokenFromStorage)
             console.log(tokenFromStorage);
+            this.setState({cart: []});
             this.getUserShoppingCart();
         }
         catch(error){
@@ -114,15 +115,14 @@ class App extends Component {
         let config = {headers: { Authorization: `Bearer ${token}` }}
         let {data} = await axios.get('https://localhost:44394/api/shoppingcart/' + this.state.user.id, config);
         console.log("shopping cart", data);
-        this.setState({cart: data});
-        this.getProducts(config);
+        this.getProducts(config, data);
     }
 
-    getProducts = async(config) => {
-        let items = this.state.cart;
+    getProducts = async(config, data) => {
+        let items = data;
         for(let i = 0; i < items.length; i++){
-            let {data} = await axios.get('https://localhost:44394/api/product/' + items[i].productId);
-            console.log(data);
+            let {data} = await axios.get('https://localhost:44394/api/product/' + items[i].productId, config);
+            this.setState({cart:[...this.state.cart, data]});
         }
     }
 
