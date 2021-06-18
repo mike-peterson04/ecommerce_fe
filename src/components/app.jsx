@@ -8,6 +8,7 @@ import ProductForm from './ProductForm/productForm';
 import Navbar from './navbar/navbar'
 import ShoppingCart from './ShoppingCart/shoppingCart';
 import jwtDecode from 'jwt-decode';
+import LogWrap from './logWrap/LogWrap';
 
 class App extends Component {
     constructor(props) {
@@ -146,6 +147,25 @@ class App extends Component {
     }
 
     render() {
+
+        if (!this.state.isLoggedIn){
+            return(
+                <div>
+                    <Navbar vendor={this.state.isVendor}/>
+                    <div className="container-fluid col-md-8">
+                        <div className="row">
+                            <div className="col-sm">
+                            </div>
+                            <div className = "col-sm reg-form-wrapper my-5">
+                                <LogWrap registerUser={(regUser) => this.registerUser(regUser)} loginUser={(loginUser) => this.loginUser(loginUser)}/>
+                            </div>
+                            <div className="col-sm">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            )
+        }
         
         return (
             <div>
