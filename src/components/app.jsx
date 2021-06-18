@@ -151,7 +151,7 @@ class App extends Component {
         if (!this.state.isLoggedIn){
             return(
                 <div>
-                    <Navbar vendor={this.state.isVendor}/>
+                    <Navbar vendor={this.state.isVendor} logout={() => this.wipeout()} isLoggedIn={this.state.isLoggedIn} login=""/>
                     <div className="container-fluid col-md-8">
                         <div className="row">
                             <div className="col-sm">
@@ -169,7 +169,7 @@ class App extends Component {
         
         return (
             <div>
-                <Navbar vendor={this.state.isVendor} logout={() => this.wipeout()}/>
+                <Navbar vendor={this.state.isVendor} logout={() => this.wipeout()} isLoggedIn={this.state.isLoggedIn} login=""/>
                 <div className="container-fluid col-md-8">
                     <div className="row">
                         <div className="col-sm">

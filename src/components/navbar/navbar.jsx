@@ -1,4 +1,12 @@
 function Navbar(props){
+    const logToggle = () => {
+        if (props.isLoggedIn){
+            return (<button className="btn btn-outline-success my-2 my-sm-0" onClick={() => props.logout()}>Logout</button>)
+        } else{
+            return (<button className="btn btn-outline-success my-2 my-sm-0">Login</button>)
+            //return (<button className="btn btn-outline-success my-2 my-sm-0" onClick={() => props.login()}>Login</button>)
+        }
+    }
 
     if(props.vendor){
         return(
@@ -35,6 +43,9 @@ function Navbar(props){
                         <input className="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search"></input>
                         <button className="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
                     </form>
+                    <div className="logoutLblPos">
+                        {logToggle()}
+                    </div>
                 </div>
             </nav>
             );
@@ -73,7 +84,7 @@ function Navbar(props){
                         <button className="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
                     </form>
                     <div className="logoutLblPos">
-                        <button className="btn btn-outline-success my-2 my-sm-0" onClick={() => props.logout()}>Logout</button>
+                        {logToggle()}
                     </div>
                 </div>
             </nav>
