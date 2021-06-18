@@ -23,6 +23,7 @@ const ShoppingCart = (props) => {
                     <p>Product Name: {item.name}</p>
                     <p>Price: {item.price}</p>
                     <p>Quantity: {setQuantity(item.id)}</p>
+                    <button onClick={() => props.removeFromCart(item.id)}>Remove from Cart</button>
                 </div>
             )}
         </div>

@@ -95,14 +95,13 @@ class App extends Component {
             let {data} = await axios.post('https://localhost:44394/api/authentication/login/', userLogin);
             console.log('Logged in User', data);
             localStorage.setItem('token', data.token);
-            // These two lines are for reference and can be removed later
             const tokenFromStorage = localStorage.getItem('token');
             this.setState({
                 isLoggedIn:true,
                 user:jwtDecode(tokenFromStorage)
             });
             this.existingCustomer(tokenFromStorage)
-            console.log(tokenFromStorage);
+            // These three lines can move from here once routing is established I think.            
             this.setState({shoppingCart: []});
             this.setState({productsInCart: []});
             this.getUserShoppingCart();
@@ -129,6 +128,21 @@ class App extends Component {
         }
     }
 
+    removeFromCart = async(id) => {
+        console.log("remove ", id);
+        let token = localStorage.getItem('token');
+        let config = {headers: { Authorization: `Bearer ${token}` }};
+        let {data} = await axios.delete('https://localhost:44394/api/shoppingcart/' + id, config, {"id": id});
+        this.removeItem(data);
+    }
+
+    removeItem(e) {
+        e.user = null;
+        this.setState({shoppingCart: this.state.shoppingCart.filter(function(item) { 
+            return item !== e; 
+        })});
+    }
+
     render() {
         
         return (
@@ -142,7 +156,7 @@ class App extends Component {
                             <RegForm registerUser={(regUser) => this.registerUser(regUser)}/>
                             <LoginForm loginUser={(loginUser) => this.loginUser(loginUser)}/>
                             <ProductForm />
-                            <ShoppingCart user={this.state.user} items={this.state.productsInCart} cart={this.state.shoppingCart}/>
+                            <ShoppingCart user={this.state.user} items={this.state.productsInCart} cart={this.state.shoppingCart} removeFromCart={(id) => this.removeFromCart(id)}/>
                         </div>
                         <div className="col-sm">
                         </div>
