@@ -91,6 +91,8 @@ class App extends Component {
             isLoggedIn:false,
             user:{},
             customer:{},
+            ShoppingCart: [],
+            productsInCart: []
         })
     }
 
@@ -205,7 +207,7 @@ class App extends Component {
         
         return (
             <div>
-                <Navbar vendor={this.state.isVendor}/>
+                <Navbar vendor={this.state.isVendor} logout={() => this.wipeout()}/>
                 <div className="container-fluid col-md-8">
                     <div className="row">
                         <div className="col-sm">
