@@ -35,6 +35,16 @@ class App extends Component {
         } catch {}
     }
 
+    productSearch = async(event)=>{
+        event.preventDefault();
+        debugger;
+        let body = event.target.search.value+""
+        console.log(body)
+        let searchResult = await axios.get('https://localhost:44394/api/product/search/'+body);
+        this.setState({products:searchResult.data})
+
+    }
+
     // User password requires at least one digit 1-9!
     registerUser = async(userReg) => {
         console.log("passed reg param", userReg)
@@ -189,7 +199,7 @@ class App extends Component {
         if (!this.state.isLoggedIn){
             return(
                 <div>
-                    <Navbar vendor={this.state.isVendor} logout={() => this.wipeout()} isLoggedIn={this.state.isLoggedIn} login=""/>
+                    <Navbar productSearch={this.productSearch} vendor={this.state.isVendor} logout={() => this.wipeout()} isLoggedIn={this.state.isLoggedIn} login=""/>
                     <div className="container-fluid col-md-8">
                         <div className="row">
                             <div className="col-sm">
@@ -207,7 +217,7 @@ class App extends Component {
         
         return (
             <div>
-                <Navbar vendor={this.state.isVendor} logout={() => this.wipeout()} isLoggedIn={this.state.isLoggedIn} login=""/>
+                <Navbar productSearch={this.productSearch} vendor={this.state.isVendor} logout={() => this.wipeout()} isLoggedIn={this.state.isLoggedIn} login=""/>
                 <div className="container-fluid col-md-8">
                     <div className="row">
                         <div className="col-sm">
