@@ -22,15 +22,16 @@ class App extends Component {
             customer:{},
             shoppingCart:[],
             productsInCart:[],
-            renderIndex:"initial"
+            renderIndex:"initial",
+            products:[]
         }
     }
 
     componentDidMount(){
         const jwt = localStorage.getItem('token');
+        this.getProducts()
         try{
             const user = jwtDecode(jwt);
-            this.getProducts()
             this.setState({user});
         } catch {}
     }
@@ -149,14 +150,14 @@ class App extends Component {
             });
             let customer = await this.existingCustomer(tokenFromStorage)
             // These three lines can move from here once routing is established I think.      
-            debugger;
 
             this.setState(
                 {shoppingCart: [],
                 productsInCart: [],
                 customer:customer.customer,
                 vendor:customer.vendor,
-                isVendor:customer.isVendor
+                isVendor:customer.isVendor,
+                isLoggedIn:true
             });
             this.getUserShoppingCart();
         }
@@ -171,10 +172,10 @@ class App extends Component {
         let {data} = await axios.get('https://localhost:44394/api/shoppingcart/' + this.state.user.id, config);
         console.log("shopping cart", data);
         this.setState({shoppingCart: data})
-        this.getProducts(config, data);
+        this.getUserProducts(config, data);
     }
 
-    getProducts = async(config, data) => {
+    getUserProducts = async(config, data) => {
         let items = data;
         for(let i = 0; i < items.length; i++){
             let {data} = await axios.get('https://localhost:44394/api/product/' + items[i].productId, config);
@@ -196,6 +197,7 @@ class App extends Component {
             return item !== e; 
         })});
     }
+
     getProducts = async() =>{
         let productReturn = [];
         let products;
@@ -223,6 +225,7 @@ class App extends Component {
                 }
             }
             productReturn = products
+            console.log(products)
             this.setState({products:productReturn})
 
         }
