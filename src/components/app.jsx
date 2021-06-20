@@ -37,7 +37,6 @@ class App extends Component {
 
     productSearch = async(event)=>{
         event.preventDefault();
-        debugger;
         let body = event.target.search.value+""
         console.log(body)
         let searchResult = await axios.get('https://localhost:44394/api/product/search/'+body);
@@ -57,7 +56,31 @@ class App extends Component {
         }
     }
 
+    getVendor = async (token) =>{
+        
+        let config = {headers: { Authorization: `Bearer ${token}` }}
+        let vendor = await axios.get("https://localhost:44394/api/vendor/",config);
+        console.log(vendor);
+        if(vendor.data !== ""){
+            let result = {
+                isVendor:true,
+                vendor:vendor.data
+            }
+            console.log(result)
+            return result;
+        }
+        else{
+            let result = {
+                isVendor:false,
+                vendor:'null'
+            }
+            return result;
+        }
+
+    }
+
     existingCustomer = async(token) =>{
+    
         
         let config = {headers: { Authorization: `Bearer ${token}` }}
         let user = jwtDecode(token);
@@ -69,6 +92,8 @@ class App extends Component {
         try{
             
             customer = await axios.get(url, config)
+            
+
             
             if(customer.data === ""){
 
@@ -87,7 +112,12 @@ class App extends Component {
                 console.log(e, customer, userInfo)
             }
         customer = customer.data;
-        this.setState({customer:customer});
+        let vendor = await this.getVendor(token);
+        
+            return({customer:customer,
+            vendor:vendor.vendor,
+            isVendor:vendor.isVendor
+            });
     }
 
     purge = () =>{
@@ -117,10 +147,17 @@ class App extends Component {
                 isLoggedIn:true,
                 user:jwtDecode(tokenFromStorage)
             });
-            this.existingCustomer(tokenFromStorage)
-            // These three lines can move from here once routing is established I think.            
-            this.setState({shoppingCart: []});
-            this.setState({productsInCart: []});
+            let customer = await this.existingCustomer(tokenFromStorage)
+            // These three lines can move from here once routing is established I think.      
+            debugger;
+
+            this.setState(
+                {shoppingCart: [],
+                productsInCart: [],
+                customer:customer.customer,
+                vendor:customer.vendor,
+                isVendor:customer.isVendor
+            });
             this.getUserShoppingCart();
         }
         catch(error){

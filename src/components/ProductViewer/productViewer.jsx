@@ -3,7 +3,7 @@ function ProductViewer(props){
     function ProductMapper(product){
         return(
         <div>
-            <table>
+            <table className='table table-striped'>
                 <tbody>
                     <tr>
                         <td>
@@ -15,10 +15,10 @@ function ProductViewer(props){
                     </tr>
                     <tr>
                         <td>
-                        <button className="btn btn-success" value="Add To Cart"/>
+                        <button className="btn btn-success" value="Add To Cart">Add To Cart</button>
                         </td>
                         <td>
-                        <button className="btn btn-success" value="See Reviews"/>
+                        <button className="btn btn-success" value="See Reviews">See Reviews</button>
                         </td>
                     </tr>
                 </tbody>
