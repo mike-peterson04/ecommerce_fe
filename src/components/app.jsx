@@ -29,16 +29,49 @@ class App extends Component {
             currentProduct:{},
             reviewModalState:false,
             detailsModalState:false,
+            categories:[],
+            reviews:[]
         }
     }
 
     componentDidMount(){
         const jwt = localStorage.getItem('token');
-        this.getProducts()
+        this.getProducts();
+        this.getCategories();
         try{
             const user = jwtDecode(jwt);
             this.setState({user});
         } catch {}
+    }
+
+    getCategories = async () => {
+        let categoriesReturn = [];
+        let categories;
+        try{
+            categories = await axios.get('https://localhost:44394/api/categories/')
+            categories = categories.data;
+            categoriesReturn = categories;
+            console.log(categories)
+            this.setState({categories:categoriesReturn})
+
+        }
+        catch(e){
+            console.log(e," ", categories)
+        }
+    }
+
+    getReviews = async () => {
+        let reviewsReturn = [];
+        let reviews;
+        try{
+            reviews = await axios.get('https://localhost:44394/api/review/' + this.state.currentProduct.id)
+            reviews = reviews.data;
+            reviewsReturn = reviews;
+            this.setState({reviews:reviewsReturn});
+        }
+        catch(e){
+            console.log(e, " ". reviews);
+        }
     }
 
     productSearch = async(event)=>{
@@ -248,16 +281,17 @@ class App extends Component {
     }
 
     toggleDetailsModal = (product) => {
-        if (product.id){
-            this.setState({currentProduct: product})
+        if (product.id != this.state.currentProduct.id){
+            this.setState({currentProduct: product}, () => {this.getReviews()})
+            this.setState({activeCategory: product.categoryId})
         }
         this.setState({detailsModalState: !this.state.detailsModalState})
     }
 
     addToCart = (product) => {
-        console.log(product);
         this.toggleDetailsModal(product)
     }
+
 
     render() {
         if (!this.state.isLoggedIn){
@@ -289,7 +323,7 @@ class App extends Component {
                         <div className = "col-sm reg-form-wrapper my-5">
                             <ProductViewer products={this.state.products} addToCart={(product) => this.addToCart(product)} product={this.state.currentProduct} productDetails={(product) => this.toggleDetailsModal(product)} toggleModal={(product) => this.toggleReviewModal(product)}/>
                             <ReviewModal product={this.state.currentProduct} toggleModal={(product) => this.toggleReviewModal(product)} modalState={this.state.reviewModalState}/>
-                            <DetailsModal product={this.state.currentProduct} addToCart={(product) => this.addToCart(product)} toggleModal={(product) => this.toggleDetailsModal(product)} modalState={this.state.detailsModalState}/>
+                            <DetailsModal category={this.state.activeCategory} reviews={this.state.reviews} product={this.state.currentProduct} addToCart={(product) => this.addToCart(product)} toggleModal={(product) => this.toggleDetailsModal(product)} modalState={this.state.detailsModalState}/>
                         </div>
                         <div className="col-sm">
                         </div>
