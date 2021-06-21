@@ -5,14 +5,16 @@ import './productForm.css';
 const ProductForm = (props) => {
 
     const Submittal = () => {
+        debugger;
         const newProduct = {
-            FirstName: inputs.name,
-            LastName: inputs.price,
-            UserName: inputs.description,
-            Password: inputs.category,
+            Name: inputs.name,
+            Price: parseFloat(inputs.price),
+            description: inputs.description,
+            CategoryId: parseInt(inputs.category),
+            vendorId: props.vendorId
         }
         console.log(newProduct, "added"); 
-        props.registerUser(newProduct);
+        props.registerProduct(newProduct);
     }
 
     const {inputs, handleChange, handleSubmit} = useCustomForm(Submittal);

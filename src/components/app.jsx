@@ -9,6 +9,7 @@ import LogWrap from './logWrap/LogWrap';
 import ProductViewer from './ProductViewer/productViewer';
 import ReviewModal from './ReviewModal/reviewModal';
 import DetailsModal from './DetailsModal/detailsModal';
+import ProductForm from './ProductForm/productForm';
 
 class App extends Component {
     constructor(props) {
@@ -56,6 +57,20 @@ class App extends Component {
         catch(e){
             console.log(e," ", categories)
         }
+    }
+    registerProduct = async (product) =>{
+        debugger;
+        let token = localStorage.getItem('token');
+        let config = {headers: { Authorization: `Bearer ${token}` }};
+        let result;
+        try{
+            result = await axios.post('https://localhost:44394/api/product/new',product,config);
+
+        }
+        catch(e){
+            console.log(e);
+        }
+
     }
 
     getReviews = async () => {
@@ -290,6 +305,7 @@ class App extends Component {
                 <div className="container-fluid col-md-8">
                     <div className="row">
                         <div className="col-sm">
+                        {this.state.isVendor&&<ProductForm vendorId={this.state.vendor.id} registerProduct={this.registerProduct}/>}
                         </div>
                         <div className = "col-sm reg-form-wrapper my-5">
                             <ProductViewer products={this.state.products} addToCart={(product) => this.addToCart(product)} product={this.state.currentProduct} productDetails={(product) => this.toggleDetailsModal(product)} toggleModal={(product) => this.toggleReviewModal(product)}/>
