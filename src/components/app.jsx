@@ -356,9 +356,8 @@ class App extends Component {
                             <ReviewModal product={this.state.currentProduct} toggleModal={(product) => this.toggleReviewModal(product)} modalState={this.state.reviewModalState}/>
                             <DetailsModal rating={this.state.averageRating} category={this.state.activeCategory} reviews={this.state.reviews} product={this.state.currentProduct} addToCart={(product) => this.addToCart(product)} toggleModal={(product) => this.toggleDetailsModal(product)} modalState={this.state.detailsModalState} addToCart={(item) => this.addToCart(item)}/>
                         </div>
-                        {/* <div className="col-sm">
-                            <ShoppingCart user={this.state.user}/>
-                        </div> */}
+                        <div className="col-sm">
+                        </div>
                     </div>
                 </div>
             </div>
