@@ -17,17 +17,19 @@ function ReviewModal(props){
     const reviewSubmit = async (event, product) => {
         event.preventDefault();
         let token = localStorage.getItem('token');
+        let e = document.getElementById("inputGroupSelect01");
+        let rating = parseInt(e.value);
         let review = {
-            StarRating: 5,
+            StarRating: rating,
             Review_body: reviewText,
             ProductId: product.id
         }
-        let config = {headers: { Authorization: `Bearer ${token}`}, review};
+        let config = {headers: { Authorization: `Bearer ${token}`}};
 
         setReviewText("");
-        debugger;
         try{
-            const reply = await axios.post("https://localhost:44394/api/review/", config)
+            const reply = await axios.post("https://localhost:44394/api/review/", review, config)
+            props.toggleModal();
         }
         catch(ex){
             console.log(`Error: ${ex}`)
@@ -41,16 +43,18 @@ function ReviewModal(props){
                 <Modal.Body>
                     <form id={product.id} onSubmit={event => reviewSubmit(event, product)}>
                         <label for="reply">Leave your review of {product.name} here:</label>
-                        <div class="dropdown">
-  <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenu2" data-bs-toggle="dropdown" aria-expanded="false">
-    Dropdown
-  </button>
-  <ul class="dropdown-menu" aria-labelledby="dropdownMenu2">
-    <li><button class="dropdown-item" type="button">Action</button></li>
-    <li><button class="dropdown-item" type="button">Another action</button></li>
-    <li><button class="dropdown-item" type="button">Something else here</button></li>
-  </ul>
-</div>
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <label class="input-group-text" for="inputGroupSelect01">Options</label>
+                            </div>
+                            <select class="custom-select" id="inputGroupSelect01">
+                                <option value="1">One</option>
+                                <option value="2">Two</option>
+                                <option value="3">Three</option>
+                                <option value="4">Four</option>
+                                <option selected value="5">Five</option>
+                            </select>
+                            </div>
                         <input onChange={event => setReviewText(event.target.value)} type="text" name="review" id="review" value={reviewText} />
                         <button type="submit" value="Post" id={product.id}>Submit</button>
                     </form>
