@@ -274,8 +274,24 @@ class App extends Component {
         this.setState({detailsModalState: !this.state.detailsModalState})
     }
 
-    addToCart = (product) => {
-        this.toggleDetailsModal(product)
+    addToCart = async (product) => {
+        console.log("Old",product);
+        let newProduct = {
+            ProductId: product.id,
+            CustomerId: this.state.customer.id,
+            Quantity: 1
+        }
+        console.log("new", newProduct)
+        try{
+            let token = localStorage.getItem('token');
+            let config = {headers: { Authorization: `Bearer ${token}` }};
+            let result = await axios.post("https://localhost:44394/api/shoppingcart/add", newProduct, config)
+        }
+        catch(e){
+            console.log(e);
+        }
+        this.setState({detailsModalState: false});
+        this.setState({reviewModalState: false});
     }
 
 
@@ -310,10 +326,10 @@ class App extends Component {
                         <div className = "col-sm reg-form-wrapper my-5">
                             <ProductViewer products={this.state.products} addToCart={(product) => this.addToCart(product)} product={this.state.currentProduct} productDetails={(product) => this.toggleDetailsModal(product)} toggleModal={(product) => this.toggleReviewModal(product)}/>
                             <ReviewModal product={this.state.currentProduct} toggleModal={(product) => this.toggleReviewModal(product)} modalState={this.state.reviewModalState}/>
-                            <DetailsModal rating={this.state.averageRating} category={this.state.activeCategory} reviews={this.state.reviews} product={this.state.currentProduct} addToCart={(product) => this.addToCart(product)} toggleModal={(product) => this.toggleDetailsModal(product)} modalState={this.state.detailsModalState}/>
+                            <DetailsModal rating={this.state.averageRating} category={this.state.activeCategory} reviews={this.state.reviews} product={this.state.currentProduct} addToCart={(product) => this.addToCart(product)} toggleModal={(product) => this.toggleDetailsModal(product)} modalState={this.state.detailsModalState} addToCart={(item) => this.addToCart(item)}/>
                         </div>
                         <div className="col-sm">
-                        <ShoppingCart user={this.state.user}/>
+                            <ShoppingCart user={this.state.user}/>
                         </div>
                     </div>
                 </div>
