@@ -1,6 +1,8 @@
 import React, {Component} from 'react';
 import LoginForm from '../LoginForm/loginForm';
 import RegForm from '../RegForm/regForm';
+import './LogWrap.css';
+import './fontAwesome/css/all.min.css';
 
 class LogWrap extends Component{
     constructor(props){
@@ -19,10 +21,9 @@ class LogWrap extends Component{
     render(){
         if(this.state.render === "decide"){
             return (
-                <div>
-                            <button className="btn btn-success" onClick={this.registerStart}>Register</button> 
-                            <button className="btn btn-success"onClick={this.loginStart}>Login!</button>
-        
+                <div className="login-reg-nav">
+                    <button id="register" onClick={this.registerStart}>Register</button> 
+                    <button id="login" onClick={this.loginStart}>Login</button>
                 </div>
             );
         }

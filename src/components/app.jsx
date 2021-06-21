@@ -302,21 +302,12 @@ class App extends Component {
             return(
                 <div className="container-fluid">
                     <Navbar productSearch={this.productSearch} vendor={this.state.isVendor} logout={() => this.wipeout()} isLoggedIn={this.state.isLoggedIn} login=""/>
-                    <div className="container-fluid col-md-8">
-                        <div className="row">
-                            <div className="col-sm">
-                            </div>
-                            <div className = "col-sm reg-form-wrapper my-5">
-                                <LogWrap registerUser={(regUser) => this.registerUser(regUser)} loginUser={(loginUser) => this.loginUser(loginUser)}/>
-                            </div>
-                            <div className="col-sm">
-                            </div>
-                        </div>
+                    <div className = "reg-form-wrapper">
+                        <LogWrap registerUser={(regUser) => this.registerUser(regUser)} loginUser={(loginUser) => this.loginUser(loginUser)}/>
                     </div>
                 </div>
             )
         }
-        
         return (
             <div className="container-fluid">
                 <Navbar productSearch={this.productSearch} vendor={this.state.isVendor} logout={() => this.wipeout()} isLoggedIn={this.state.isLoggedIn} login=""/>

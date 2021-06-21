@@ -1,0 +1,29 @@
+.login-reg-nav {
+    display: flex;
+    justify-content: space-around;
+    width: 80%;
+}
+
+#register {
+    height: 25vh;
+    width: 25vw;
+    background-image: linear-gradient(to bottom left, rgb(50, 182, 111), rgb(100, 211, 96), rgb(40, 150, 54));
+    /* box-shadow: 12px 8px 6px rgb(59, 61, 59); */
+    font-size: 3rem;
+    color: rgb(221, 221, 221);
+    text-shadow: 4px 2px 2px rgb(37, 37, 37);
+}
+
+#login {
+    height: 25vh;
+    width: 25vw;
+    background-image: linear-gradient(to top right, rgb(121, 155, 235), rgb(63, 55, 180), rgb(55, 9, 141));
+    /* box-shadow: 12px 8px 6px rgb(59, 61, 59); */
+    font-size: 3rem;
+    color: rgb(221, 221, 221);
+    text-shadow: 4px 2px 2px rgb(37, 37, 37);
+}
+
+button {
+    border-radius: 20px;
+}
