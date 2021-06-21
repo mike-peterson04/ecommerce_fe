@@ -16,6 +16,7 @@ function ProductViewer(props){
                     <h6 ClassName="card-subtitle mb-2 text-muted">{product.price}</h6>
                     <p ClassName="card-text">{product.description}</p>
                     <Button ClassName="btn btn-primary">Add to Cart</Button>
+                    <Button ClassName="btn btn-secondary" onClick={() => props.productDetails(product)}>Details</Button>
                     <Button ClassName="btn reply-modal-btn" onClick={() => props.toggleModal(product)}>Add Review</Button>
                 </div>
                 <div class="card-footer text-muted">{product.category}</div>

@@ -29,7 +29,7 @@ function ReviewModal(props){
         setReviewText("");
         try{
             const reply = await axios.post("https://localhost:44394/api/review/", review, config)
-            props.toggleModal();
+            props.toggleModal(product);
         }
         catch(ex){
             console.log(`Error: ${ex}`)
@@ -61,7 +61,7 @@ function ReviewModal(props){
                 </Modal.Body>
                 <Modal.Footer>
                     <div className="reply-modal-button">
-                        <Button onClick={toggleModal}>Close</Button>
+                        <Button onClick={() => toggleModal(product)}>Close</Button>
                     </div>
                 </Modal.Footer>
             </Modal>

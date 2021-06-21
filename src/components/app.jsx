@@ -11,6 +11,7 @@ import jwtDecode from 'jwt-decode';
 import LogWrap from './logWrap/LogWrap';
 import ProductViewer from './ProductViewer/productViewer';
 import ReviewModal from './ReviewModal/reviewModal';
+import DetailsModal from './DetailsModal/detailsModal';
 
 class App extends Component {
     constructor(props) {
@@ -26,7 +27,8 @@ class App extends Component {
             renderIndex:"initial",
             products:[],
             currentProduct:{},
-            modalState:false,
+            reviewModalState:false,
+            detailsModalState:false,
         }
     }
 
@@ -238,15 +240,23 @@ class App extends Component {
         }
     }
 
-    seeReviews = (product) => {
-
-    }
-
-    toggleModal = (product) => {
+    toggleReviewModal = (product) => {
         if (product.id){
             this.setState({currentProduct: product})
         }
-        this.setState({modalState: !this.state.modalState});
+        this.setState({reviewModalState: !this.state.reviewModalState});
+    }
+
+    toggleDetailsModal = (product) => {
+        if (product.id){
+            this.setState({currentProduct: product})
+        }
+        this.setState({detailsModalState: !this.state.detailsModalState})
+    }
+
+    addToCart = (product) => {
+        console.log(product);
+        this.toggleDetailsModal(product)
     }
 
     render() {
@@ -277,8 +287,9 @@ class App extends Component {
                         <div className="col-sm">
                         </div>
                         <div className = "col-sm reg-form-wrapper my-5">
-                            <ProductViewer products={this.state.products} product={this.state.currentProduct} toggleModal={(product) => this.toggleModal(product)}/>
-                            <ReviewModal product={this.state.currentProduct} toggleModal={(product) => this.toggleModal(product)} modalState={this.state.modalState}/>
+                            <ProductViewer products={this.state.products} addToCart={(product) => this.addToCart(product)} product={this.state.currentProduct} productDetails={(product) => this.toggleDetailsModal(product)} toggleModal={(product) => this.toggleReviewModal(product)}/>
+                            <ReviewModal product={this.state.currentProduct} toggleModal={(product) => this.toggleReviewModal(product)} modalState={this.state.reviewModalState}/>
+                            <DetailsModal product={this.state.currentProduct} addToCart={(product) => this.addToCart(product)} toggleModal={(product) => this.toggleDetailsModal(product)} modalState={this.state.detailsModalState}/>
                         </div>
                         <div className="col-sm">
                         </div>
