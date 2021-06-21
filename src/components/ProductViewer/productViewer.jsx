@@ -11,9 +11,8 @@ function ProductViewer(props){
         return(
         <div>
             <div ClassName="card">
-            <div class="card-header">Featured</div>
+            <div class="card-header">{product.name}</div>
             <div ClassName="card-body">
-            <h5 ClassName="card-title">{product.name}</h5>
             <h6 ClassName="card-subtitle mb-2 text-muted">{product.price}</h6>
             <p ClassName="card-text">{product.description}</p>
             <Button ClassName="btn btn-primary" onClick={() => props.addToCart(product)}>Add to Cart</Button>

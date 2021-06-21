@@ -10,6 +10,8 @@ import ProductViewer from './ProductViewer/productViewer';
 import ReviewModal from './ReviewModal/reviewModal';
 import DetailsModal from './DetailsModal/detailsModal';
 import ProductForm from './ProductForm/productForm';
+import { Route, Switch } from 'react-router-dom';
+
 
 class App extends Component {
     constructor(props) {
@@ -318,19 +320,45 @@ class App extends Component {
         return (
             <div className="container-fluid">
                 <Navbar productSearch={this.productSearch} vendor={this.state.isVendor} logout={() => this.wipeout()} isLoggedIn={this.state.isLoggedIn} login=""/>
+                
                 <div className="container-fluid col-md-8">
                     <div className="row">
                         <div className="col-sm">
-                        {this.state.isVendor&&<ProductForm vendorId={this.state.vendor.id} registerProduct={this.registerProduct}/>}
+                        {/* {this.state.isVendor&&<ProductForm vendorId={this.state.vendor.id} registerProduct={this.registerProduct}/>} */}
                         </div>
                         <div className = "col-sm reg-form-wrapper my-5">
-                            <ProductViewer products={this.state.products} addToCart={(product) => this.addToCart(product)} product={this.state.currentProduct} productDetails={(product) => this.toggleDetailsModal(product)} toggleModal={(product) => this.toggleReviewModal(product)}/>
+                            <Switch>
+                                <Route
+                                    path='/home'
+                                    render={(props) => (
+                                        <ProductViewer products={this.state.products} addToCart={(product) => this.addToCart(product)} product={this.state.currentProduct} productDetails={(product) => this.toggleDetailsModal(product)} toggleModal={(product) => this.toggleReviewModal(product)} isAuthed={true} />
+                                    )}
+                                />
+                                <Route
+                                    path='/cart'
+                                    render={(props) => (
+                                        <ShoppingCart user={this.state.user} isAuthed={true} />
+                                    )}
+                                />
+                                <Route
+                                    path='/add'
+                                    render={(props) => (
+                                        <ProductForm vendorId={this.state.vendor.id} registerProduct={this.registerProduct} isAuthed={true} />
+                                    )}
+                                />
+                                <Route
+                                    path='/products'
+                                    render={(props) => (
+                                        <ProductViewer products={this.state.products} addToCart={(product) => this.addToCart(product)} product={this.state.currentProduct} productDetails={(product) => this.toggleDetailsModal(product)} toggleModal={(product) => this.toggleReviewModal(product)} isAuthed={true} />
+                                    )}
+                                />
+                            </Switch>
                             <ReviewModal product={this.state.currentProduct} toggleModal={(product) => this.toggleReviewModal(product)} modalState={this.state.reviewModalState}/>
                             <DetailsModal rating={this.state.averageRating} category={this.state.activeCategory} reviews={this.state.reviews} product={this.state.currentProduct} addToCart={(product) => this.addToCart(product)} toggleModal={(product) => this.toggleDetailsModal(product)} modalState={this.state.detailsModalState} addToCart={(item) => this.addToCart(item)}/>
                         </div>
-                        <div className="col-sm">
+                        {/* <div className="col-sm">
                             <ShoppingCart user={this.state.user}/>
-                        </div>
+                        </div> */}
                     </div>
                 </div>
             </div>
