@@ -9,12 +9,36 @@ class ShoppingCart extends Component{
         super(props);
         this.state = {
             user:props.user,
-            cart:[]
+            cart:[],
+            purge:false
         }
 
     }
-    removeItem(event,item){
+    purge(){
+        this.setState({
+            user:this.state.user,
+            cart:[],
+            purge:true
+        })
+        let cart = this.getCart();
+        console.log(cart)
+
+    }
+
+    async removeItem(event,item){
         event.preventDefault();
+        let token = localStorage.getItem('token');
+        let config = {headers: { Authorization: `Bearer ${token}` }};
+        this.state.cart = []
+        try{
+            let del = await axios.delete("https://localhost:44394/api/shoppingcart/"+item.productId,config)
+            console.log(del);
+        }
+        catch(e){
+            console.log(e)
+        }
+
+        this.getCart()
 
     }
 
@@ -29,6 +53,7 @@ class ShoppingCart extends Component{
         catch(e){
             console.log(e);
         }
+        return cart.data;
     }
     componentDidMount(){
         this.getCart();
@@ -63,6 +88,10 @@ class ShoppingCart extends Component{
         </div>)
     }
     render(){
+        if(this.state.purge){
+            let cart = this.getCart();
+            this.state.purge = false;
+        }
         console.log(this.state.cart)
         if(this.state.cart.length > 0){
             return(
