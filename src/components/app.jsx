@@ -2,9 +2,6 @@ import React, {Component} from 'react';
 import axios from 'axios';
 import 'bootstrap/dist/css/bootstrap.css';
 import './app.css';
-import RegForm from './RegForm/regForm';
-import LoginForm from './LoginForm/loginForm';
-import ProductForm from './ProductForm/productForm';
 import Navbar from './navbar/navbar'
 import ShoppingCart from './ShoppingCart/shoppingCart';
 import jwtDecode from 'jwt-decode';
@@ -12,6 +9,7 @@ import LogWrap from './logWrap/LogWrap';
 import ProductViewer from './ProductViewer/productViewer';
 import ReviewModal from './ReviewModal/reviewModal';
 import DetailsModal from './DetailsModal/detailsModal';
+import ProductForm from './ProductForm/productForm';
 
 class App extends Component {
     constructor(props) {
@@ -59,6 +57,20 @@ class App extends Component {
         catch(e){
             console.log(e," ", categories)
         }
+    }
+    registerProduct = async (product) =>{
+        debugger;
+        let token = localStorage.getItem('token');
+        let config = {headers: { Authorization: `Bearer ${token}` }};
+        let result;
+        try{
+            result = await axios.post('https://localhost:44394/api/product/new',product,config);
+
+        }
+        catch(e){
+            console.log(e);
+        }
+
     }
 
     getReviews = async () => {
@@ -160,10 +172,6 @@ class App extends Component {
             });
     }
 
-    purge = () =>{
-
-    }
-
     wipeout = () =>{
         localStorage.removeItem("token")
         this.setState({
@@ -198,43 +206,10 @@ class App extends Component {
                 isVendor:customer.isVendor,
                 isLoggedIn:true
             });
-            this.getUserShoppingCart();
         }
         catch(error){
             alert(`Whoops! ${error}. Looks like we're having some technical difficulties. Try again later!`);
         }
-    }
-
-    getUserShoppingCart = async() => {
-        let token = localStorage.getItem('token');
-        let config = {headers: { Authorization: `Bearer ${token}` }}
-        let {data} = await axios.get('https://localhost:44394/api/shoppingcart/' + this.state.user.id, config);
-        console.log("shopping cart", data);
-        this.setState({shoppingCart: data})
-        this.getUserProducts(config, data);
-    }
-
-    getUserProducts = async(config, data) => {
-        let items = data;
-        for(let i = 0; i < items.length; i++){
-            let {data} = await axios.get('https://localhost:44394/api/product/' + items[i].productId, config);
-            this.setState({productsInCart:[...this.state.productsInCart, data]});
-        }
-    }
-
-    removeFromCart = async(id) => {
-        console.log("remove ", id);
-        let token = localStorage.getItem('token');
-        let config = {headers: { Authorization: `Bearer ${token}` }};
-        let {data} = await axios.delete('https://localhost:44394/api/shoppingcart/' + id, config, {"id": id});
-        this.removeItem(data);
-    }
-
-    removeItem(e) {
-        e.user = null;
-        this.setState({shoppingCart: this.state.shoppingCart.filter(function(item) { 
-            return item !== e; 
-        })});
     }
 
     getProducts = async() =>{
@@ -299,8 +274,24 @@ class App extends Component {
         this.setState({detailsModalState: !this.state.detailsModalState})
     }
 
-    addToCart = (product) => {
-        this.toggleDetailsModal(product)
+    addToCart = async (product) => {
+        console.log("Old",product);
+        let newProduct = {
+            ProductId: product.id,
+            CustomerId: this.state.customer.id,
+            Quantity: 1
+        }
+        console.log("new", newProduct)
+        try{
+            let token = localStorage.getItem('token');
+            let config = {headers: { Authorization: `Bearer ${token}` }};
+            let result = await axios.post("https://localhost:44394/api/shoppingcart/add", newProduct, config)
+        }
+        catch(e){
+            console.log(e);
+        }
+        this.setState({detailsModalState: false});
+        this.setState({reviewModalState: false});
     }
 
 
@@ -330,13 +321,15 @@ class App extends Component {
                 <div className="container-fluid col-md-8">
                     <div className="row">
                         <div className="col-sm">
+                        {this.state.isVendor&&<ProductForm vendorId={this.state.vendor.id} registerProduct={this.registerProduct}/>}
                         </div>
                         <div className = "col-sm reg-form-wrapper my-5">
                             <ProductViewer products={this.state.products} addToCart={(product) => this.addToCart(product)} product={this.state.currentProduct} productDetails={(product) => this.toggleDetailsModal(product)} toggleModal={(product) => this.toggleReviewModal(product)}/>
                             <ReviewModal product={this.state.currentProduct} toggleModal={(product) => this.toggleReviewModal(product)} modalState={this.state.reviewModalState}/>
-                            <DetailsModal rating={this.state.averageRating} category={this.state.activeCategory} reviews={this.state.reviews} product={this.state.currentProduct} addToCart={(product) => this.addToCart(product)} toggleModal={(product) => this.toggleDetailsModal(product)} modalState={this.state.detailsModalState}/>
+                            <DetailsModal rating={this.state.averageRating} category={this.state.activeCategory} reviews={this.state.reviews} product={this.state.currentProduct} addToCart={(product) => this.addToCart(product)} toggleModal={(product) => this.toggleDetailsModal(product)} modalState={this.state.detailsModalState} addToCart={(item) => this.addToCart(item)}/>
                         </div>
                         <div className="col-sm">
+                            <ShoppingCart user={this.state.user}/>
                         </div>
                     </div>
                 </div>
