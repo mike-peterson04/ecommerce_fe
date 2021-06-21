@@ -24,6 +24,7 @@
 }
 
 .navBar a {
+    position: relative;
     text-decoration: none;
     color: black;
     font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -31,6 +32,36 @@
     font-weight: bold;
     text-transform: uppercase;
     letter-spacing: 1px;
+    height: 30px;
+    width: 10px;
+    /*increase hover area*/
+    padding: 15px;
+}
+
+.navBar a:hover {
+    color: rgb(55, 9, 141);
+    animation-name: downShift;
+    animation-iteration-count: 1;
+    animation-duration: 500ms;
+}
+
+@keyframes downShift {
+    0% {
+        top: 0px;
+        opacity: .6;
+    }
+    25% {
+        top: 10px;
+        opacity: 0;
+    }
+    50% {
+        top: -10px;
+        opacity: 0;
+    }
+    100% {
+        top: 0px;
+        opacity: 1;
+    }
 }
 
 .navBar .logo {
