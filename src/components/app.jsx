@@ -67,6 +67,7 @@ class App extends Component {
         let result;
         try{
             result = await axios.post('https://localhost:44394/api/product/new',product,config);
+            console.log(result);
 
         }
         catch(e){
@@ -85,7 +86,7 @@ class App extends Component {
             this.setState({reviews:reviewsReturn}, () => this.getAverageRating());
         }
         catch(e){
-            console.log(e, " ". reviews);
+            console.log(e, " ", reviews);
         }
     }
 
@@ -214,7 +215,10 @@ class App extends Component {
         }
     }
 
-    getProducts = async() =>{
+    getProducts = async(event='null') =>{
+        if(event !== 'null'){
+            event.preventDefault();
+        }
         let productReturn = [];
         let products;
 
@@ -269,7 +273,7 @@ class App extends Component {
     }
 
     toggleDetailsModal = (product) => {
-        if (product.id != this.state.currentProduct.id){
+        if (product.id !== this.state.currentProduct.id){
             this.setState({currentProduct: product}, () => {this.getReviews()})
             this.setState({activeCategory: product.categoryId})
         }
@@ -288,6 +292,7 @@ class App extends Component {
             let token = localStorage.getItem('token');
             let config = {headers: { Authorization: `Bearer ${token}` }};
             let result = await axios.post("https://localhost:44394/api/shoppingcart/add", newProduct, config)
+            console.log(result);
         }
         catch(e){
             console.log(e);
@@ -310,7 +315,7 @@ class App extends Component {
         }
         return (
             <div className="container-fluid">
-                <Navbar productSearch={this.productSearch} vendor={this.state.isVendor} logout={() => this.wipeout()} isLoggedIn={this.state.isLoggedIn} login=""/>
+                <Navbar getProducts={this.getProducts} productSearch={this.productSearch} vendor={this.state.isVendor} logout={() => this.wipeout()} isLoggedIn={this.state.isLoggedIn} login=""/>
                 
                 <div className="container-fluid col-md-8">
                     <div className="row">

@@ -20,13 +20,13 @@ function Navbar(props){
                 </button>
                 <div className="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul className="navbar-nav mr-auto">
-                        <Link to="/cart">
+                        <Link className="nav-link" to="/cart">
                             <li>Shopping Cart</li>
                         </Link>
-                        <Link to="/add">
+                        <Link className="nav-link" to="/add">
                             <li>Add Product</li>
                         </Link>
-                        <Link to="/products">
+                        <Link className="nav-link" onClick={(e)=>props.getProducts(e)} to="/products">
                             <li>View all Products</li>
                         </Link>
                         {/* <li className="nav-item active">
