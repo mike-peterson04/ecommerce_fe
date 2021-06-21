@@ -18,7 +18,6 @@ function DetailsModal(props){
                 <Modal.Header><h1>{product.name}</h1></Modal.Header>
                 <Modal.Body>
                     <div className="modal-content">
-                            <div className="container-fluid">
                                 <div className="row">
                                     <h3>Description</h3>
                                     <h5>{product.description}</h5>
@@ -46,9 +45,8 @@ function DetailsModal(props){
                                 <br />
                                 <div className="row">
                                     <h3>Rating</h3>
-                                    <h5>average rating</h5>
+                                    <h5>{props.rating}</h5>
                                 </div>
-                        </div>
                     </div>
                 </Modal.Body>
                 <Modal.Footer>

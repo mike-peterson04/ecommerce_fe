@@ -30,7 +30,8 @@ class App extends Component {
             reviewModalState:false,
             detailsModalState:false,
             categories:[],
-            reviews:[]
+            reviews:[],
+            averageRating: 0
         }
     }
 
@@ -67,7 +68,7 @@ class App extends Component {
             reviews = await axios.get('https://localhost:44394/api/review/' + this.state.currentProduct.id)
             reviews = reviews.data;
             reviewsReturn = reviews;
-            this.setState({reviews:reviewsReturn});
+            this.setState({reviews:reviewsReturn}, () => this.getAverageRating());
         }
         catch(e){
             console.log(e, " ". reviews);
@@ -280,6 +281,16 @@ class App extends Component {
         this.setState({reviewModalState: !this.state.reviewModalState});
     }
 
+    getAverageRating = () => {
+        let total = 0;
+        for(let i = 0; i < this.state.reviews.length; i++){
+            total += this.state.reviews[i].starRating;
+        }
+        total = total/this.state.reviews.length;
+        this.setState({averageRating: total});
+        console.log(total)
+    }
+
     toggleDetailsModal = (product) => {
         if (product.id != this.state.currentProduct.id){
             this.setState({currentProduct: product}, () => {this.getReviews()})
@@ -323,7 +334,7 @@ class App extends Component {
                         <div className = "col-sm reg-form-wrapper my-5">
                             <ProductViewer products={this.state.products} addToCart={(product) => this.addToCart(product)} product={this.state.currentProduct} productDetails={(product) => this.toggleDetailsModal(product)} toggleModal={(product) => this.toggleReviewModal(product)}/>
                             <ReviewModal product={this.state.currentProduct} toggleModal={(product) => this.toggleReviewModal(product)} modalState={this.state.reviewModalState}/>
-                            <DetailsModal category={this.state.activeCategory} reviews={this.state.reviews} product={this.state.currentProduct} addToCart={(product) => this.addToCart(product)} toggleModal={(product) => this.toggleDetailsModal(product)} modalState={this.state.detailsModalState}/>
+                            <DetailsModal rating={this.state.averageRating} category={this.state.activeCategory} reviews={this.state.reviews} product={this.state.currentProduct} addToCart={(product) => this.addToCart(product)} toggleModal={(product) => this.toggleDetailsModal(product)} modalState={this.state.detailsModalState}/>
                         </div>
                         <div className="col-sm">
                         </div>
