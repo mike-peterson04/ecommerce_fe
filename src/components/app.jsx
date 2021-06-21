@@ -10,6 +10,7 @@ import ShoppingCart from './ShoppingCart/shoppingCart';
 import jwtDecode from 'jwt-decode';
 import LogWrap from './logWrap/LogWrap';
 import ProductViewer from './ProductViewer/productViewer';
+import ReviewModal from './ReviewModal/reviewModal';
 
 class App extends Component {
     constructor(props) {
@@ -23,7 +24,9 @@ class App extends Component {
             shoppingCart:[],
             productsInCart:[],
             renderIndex:"initial",
-            products:[]
+            products:[],
+            currentProduct:{},
+            modalState:false,
         }
     }
 
@@ -233,7 +236,18 @@ class App extends Component {
             console.log(e," ",products)
 
         }
-    } 
+    }
+
+    seeReviews = (product) => {
+
+    }
+
+    toggleModal = (product) => {
+        if (product.id){
+            this.setState({currentProduct: product})
+        }
+        this.setState({modalState: !this.state.modalState});
+    }
 
     render() {
         if (!this.state.isLoggedIn){
@@ -263,7 +277,8 @@ class App extends Component {
                         <div className="col-sm">
                         </div>
                         <div className = "col-sm reg-form-wrapper my-5">
-                            <ProductViewer products={this.state.products}/>
+                            <ProductViewer products={this.state.products} product={this.state.currentProduct} toggleModal={(product) => this.toggleModal(product)}/>
+                            <ReviewModal product={this.state.currentProduct} toggleModal={(product) => this.toggleModal(product)} modalState={this.state.modalState}/>
                         </div>
                         <div className="col-sm">
                         </div>
