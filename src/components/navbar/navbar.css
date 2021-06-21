@@ -1,5 +1,43 @@
-.logoutLblPos{
+/* .logoutLblPos{
     position:fixed;
     right:10px;
     top:5px;
- }
+ } */
+
+.navBar {
+    display: flex;
+    height: 60px;
+    align-content: center;
+    justify-content: space-between;
+}
+
+.navBar ul {
+    display: flex;
+    list-style: none;
+    height: 100%;
+    align-items: center;
+    margin-right: 30px;
+}
+
+.navBar li {
+    margin-left: 30px;
+}
+
+.navBar a {
+    text-decoration: none;
+    color: black;
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: .9rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.navBar .logo {
+    display: flex;
+    align-items: center;
+    margin-left: 30px;
+    color: rgb(55, 9, 141);
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    transform: scale3d();
+}

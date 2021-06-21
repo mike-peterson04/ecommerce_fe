@@ -307,7 +307,7 @@ class App extends Component {
     render() {
         if (!this.state.isLoggedIn){
             return(
-                <div>
+                <div className="container-fluid">
                     <Navbar productSearch={this.productSearch} vendor={this.state.isVendor} logout={() => this.wipeout()} isLoggedIn={this.state.isLoggedIn} login=""/>
                     <div className="container-fluid col-md-8">
                         <div className="row">
@@ -325,7 +325,7 @@ class App extends Component {
         }
         
         return (
-            <div>
+            <div className="container-fluid">
                 <Navbar productSearch={this.productSearch} vendor={this.state.isVendor} logout={() => this.wipeout()} isLoggedIn={this.state.isLoggedIn} login=""/>
                 <div className="container-fluid col-md-8">
                     <div className="row">
