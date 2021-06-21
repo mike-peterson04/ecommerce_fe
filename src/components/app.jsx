@@ -198,21 +198,21 @@ class App extends Component {
                 isVendor:customer.isVendor,
                 isLoggedIn:true
             });
-            this.getUserShoppingCart();
+            //this.getUserShoppingCart();
         }
         catch(error){
             alert(`Whoops! ${error}. Looks like we're having some technical difficulties. Try again later!`);
         }
     }
 
-    getUserShoppingCart = async() => {
-        let token = localStorage.getItem('token');
-        let config = {headers: { Authorization: `Bearer ${token}` }}
-        let {data} = await axios.get('https://localhost:44394/api/shoppingcart/' + this.state.user.id, config);
-        console.log("shopping cart", data);
-        this.setState({shoppingCart: data})
-        this.getUserProducts(config, data);
-    }
+    // getUserShoppingCart = async() => {
+    //     let token = localStorage.getItem('token');
+    //     let config = {headers: { Authorization: `Bearer ${token}` }}
+    //     let {data} = await axios.get('https://localhost:44394/api/shoppingcart/' + this.state.user.id, config);
+    //     console.log("shopping cart", data);
+    //     this.setState({shoppingCart: data})
+    //     this.getUserProducts(config, data);
+    // }
 
     getUserProducts = async(config, data) => {
         let items = data;
@@ -337,6 +337,7 @@ class App extends Component {
                             <DetailsModal rating={this.state.averageRating} category={this.state.activeCategory} reviews={this.state.reviews} product={this.state.currentProduct} addToCart={(product) => this.addToCart(product)} toggleModal={(product) => this.toggleDetailsModal(product)} modalState={this.state.detailsModalState}/>
                         </div>
                         <div className="col-sm">
+                        <ShoppingCart user={this.state.user}/>
                         </div>
                     </div>
                 </div>
