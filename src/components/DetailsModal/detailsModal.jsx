@@ -34,6 +34,11 @@ function DetailsModal(props){
                                 </div>
                                 <br />
                                 <div className="row">
+                                    <h3>Rating</h3>
+                                    <h5>{props.rating}</h5>
+                                </div>
+                                <br />
+                                <div className="row">
                                     <h3>Reviews</h3>
                                     {props.reviews.map((review) => 
                                         <div className="row">
@@ -41,12 +46,7 @@ function DetailsModal(props){
                                             <p>{review.review_Body}</p>
                                         </div>
                                     )}
-                                </div>
-                                <br />
-                                <div className="row">
-                                    <h3>Rating</h3>
-                                    <h5>{props.rating}</h5>
-                                </div>
+                                </div>                                
                     </div>
                 </Modal.Body>
                 <Modal.Footer>
