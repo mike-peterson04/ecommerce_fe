@@ -27,3 +27,16 @@
 button {
     border-radius: 20px;
 }
+
+button:hover {
+    animation-name: sizeUp;
+    animation-duration: 1s;
+    animation-fill-mode: forwards;
+    animation-iteration-count: 1;
+}
+
+@keyframes sizeUp {
+    100% {
+        transform: scale(1.1);
+    }
+}
