@@ -19,3 +19,19 @@ h4 {
     text-align: center;
     color: white;
 }
+
+@media only screen and (max-width: 1366px) {
+    .form {
+        height: 500px;
+    }
+
+    .form label {
+        font-size: 1em;
+    }
+
+    .form input {
+        margin-bottom: 3px;
+        width: 25vw;
+        height: 5vh;
+    }
+}
