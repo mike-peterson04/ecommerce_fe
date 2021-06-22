@@ -11,6 +11,11 @@ function Navbar(props){
         }
     }
 
+    const search = (e) => {
+
+        props.searchTerm(e);
+    }
+
     if(props.vendor){
         return(
             <nav className="navbar navbar-expand-lg navbar-light bg-light">
@@ -26,9 +31,19 @@ function Navbar(props){
                         <Link className="nav-link" to="/add">
                             <li>Add Product</li>
                         </Link>
-                        <Link className="nav-link" onClick={(e)=>props.getProducts(e)} to="/products">
+                        <Link className="nav-link" to="/products">
                             <li>View all Products</li>
                         </Link>
+                            <form className="form-inline my-2 my-lg-0" onSubmit={(e)=>props.productSearch(e)}>
+                                <input className="form-control mr-sm-2" name = "search" type="search" placeholder="Search" aria-label="Search"></input>
+
+                                <Link to="/search">
+                                <button className="btn btn-outline-success my-2 my-sm-0" type="submit" value="Search">Search</button>
+
+                                </Link>
+
+
+                            </form>
                         {/* <li className="nav-item active">
                             <a className="nav-link" href="/#" onClick="props.userCart()">Shopping Cart <span class="sr-only"></span></a>
                         </li>
@@ -51,10 +66,7 @@ function Navbar(props){
 
                     </ul>
                     
-                    <form className="form-inline my-2 my-lg-0" onSubmit={(e)=>props.productSearch(e)}>
-                        <input className="form-control mr-sm-2" name = "search" type="search" placeholder="Search" aria-label="Search"></input>
-                        <button className="btn btn-outline-success my-2 my-sm-0" type="submit" value="Search">Search</button>
-                    </form>
+                    
                     <div className="logoutLblPos">
                         {logToggle()}
                     </div>

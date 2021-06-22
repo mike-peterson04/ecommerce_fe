@@ -7,6 +7,7 @@ import ShoppingCart from './ShoppingCart/shoppingCart';
 import jwtDecode from 'jwt-decode';
 import LogWrap from './logWrap/LogWrap';
 import ProductViewer from './ProductViewer/productViewer';
+import ResultViewer from './ResultViewer/resultViewer';
 import ReviewModal from './ReviewModal/reviewModal';
 import DetailsModal from './DetailsModal/detailsModal';
 import ProductForm from './ProductForm/productForm';
@@ -26,6 +27,7 @@ class App extends Component {
             productsInCart:[],
             renderIndex:"initial",
             products:[],
+            searchProducts:[],
             currentProduct:{},
             reviewModalState:false,
             detailsModalState:false,
@@ -91,11 +93,12 @@ class App extends Component {
     }
 
     productSearch = async(event)=>{
+        debugger
         event.preventDefault();
         let body = event.target.search.value+""
         console.log(body)
         let searchResult = await axios.get('https://localhost:44394/api/product/search/'+body);
-        this.setState({products:searchResult.data})
+        this.setState({searchProducts:searchResult.data})
 
     }
 
@@ -346,6 +349,12 @@ class App extends Component {
                                     path='/products'
                                     render={(props) => (
                                         <ProductViewer products={this.state.products} addToCart={(product) => this.addToCart(product)} product={this.state.currentProduct} productDetails={(product) => this.toggleDetailsModal(product)} toggleModal={(product) => this.toggleReviewModal(product)} isAuthed={true} />
+                                    )}
+                                />
+                                <Route
+                                    path='/search'
+                                    render={(props) => (
+                                        <ResultViewer products={this.state.searchProducts} addToCart={(product) => this.addToCart(product)} product={this.state.currentProduct} productDetails={(product) => this.toggleDetailsModal(product)} toggleModal={(product) => this.toggleReviewModal(product)} isAuthed={true} />
                                     )}
                                 />
                             </Switch>
