@@ -8,17 +8,13 @@ function Navbar(props){
         if (props.isLoggedIn){
             return (<button className="btn btn-warning my-2 my-sm-0" onClick={() => props.logout()}>Logout</button>)
         } else{
-            return (<button className="btn btn-warning my-2 my-sm-0">Login</button>)
-            //return (<button className="btn btn-outline-success my-2 my-sm-0" onClick={() => props.login()}>Login</button>)
+            return (<button className="btn btn-outline-success my-2 my-sm-0">Login</button>)
         }
     }
 
-    const search = (e) => {
-
-        props.searchTerm(e);
-    }
+   
     
-    if(props.index=='search'){
+    if(props.index==='search'){
         return(
         <nav className="navbar navbar-expand-lg navbar-light bg-light">
                 <a class="navbar-brand" href="/#">Home</a>
@@ -70,9 +66,9 @@ function Navbar(props){
                             <form className="form-inline my-2 my-lg-0" onSubmit={(e)=>props.productSearch(e)}>
                                 <input className="form-control mr-sm-2" name = "search" type="search" placeholder="Search" aria-label="Search"></input>
 
-                                
-                                <button className="btn btn-outline-success my-2 my-sm-0" type="submit" value="Search">Search</button>
-
+                                <Link className="nav-link" to="/search">
+                                    <button className="btn btn-outline-success my-2 my-sm-0" type="submit" value="Search">Search</button>
+                                </Link>
 
 
                             </form>

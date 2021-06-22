@@ -63,7 +63,6 @@ class App extends Component {
         }
     }
     registerProduct = async (product) =>{
-        
         let token = localStorage.getItem('token');
         let config = {headers: { Authorization: `Bearer ${token}` }};
         let result;
@@ -93,7 +92,6 @@ class App extends Component {
     }
 
     productSearch = async(event)=>{
-        
         event.preventDefault();
         let body = event.target.search.value+""
         console.log(body)
@@ -340,7 +338,6 @@ class App extends Component {
 
 
     render() {
-        
         if (!this.state.isLoggedIn){
             return(
                 <div className="container-fluid">
@@ -379,7 +376,6 @@ class App extends Component {
                 <div className="container-fluid col-md-8">
                     <div className="row">
                         <div className="col-sm">
-                        {/* {this.state.isVendor&&<ProductForm vendorId={this.state.vendor.id} registerProduct={this.registerProduct}/>} */}
                         </div>
                         <div className = "col-sm reg-form-wrapper my-5">
                             <Switch>
@@ -415,7 +411,7 @@ class App extends Component {
                                 />
                             </Switch>
                             <ReviewModal product={this.state.currentProduct} toggleModal={(product) => this.toggleReviewModal(product)} modalState={this.state.reviewModalState}/>
-                            <DetailsModal rating={this.state.averageRating} category={this.state.activeCategory} reviews={this.state.reviews} product={this.state.currentProduct} addToCart={(product) => this.addToCart(product)} toggleModal={(product) => this.toggleDetailsModal(product)} modalState={this.state.detailsModalState} addToCart={(item) => this.addToCart(item)}/>
+                            <DetailsModal rating={this.state.averageRating} category={this.state.activeCategory} reviews={this.state.reviews} product={this.state.currentProduct} addToCart={(product) => this.addToCart(product)} toggleModal={(product) => this.toggleDetailsModal(product)} modalState={this.state.detailsModalState}/>
                         </div>
                         <div className="col-sm">
                         </div>
