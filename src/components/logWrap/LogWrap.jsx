@@ -21,9 +21,15 @@ class LogWrap extends Component{
     render(){
         if(this.state.render === "decide"){
             return (
-                <div className="login-reg-nav">
-                    <button id="register" onClick={this.registerStart}>Register</button> 
-                    <button id="login" onClick={this.loginStart}>Login</button>
+                <div className="login-reg-container">
+                    <div className="login-reg-text">
+                        <h1>browse our collection of games</h1>
+                        <p>free to join!</p>
+                    </div>
+                    <div className="login-reg-nav">
+                        <button id="register" onClick={this.registerStart}>Register</button> 
+                        <button id="login" onClick={this.loginStart}>Login</button>
+                    </div>
                 </div>
             );
         }
