@@ -17,7 +17,7 @@ function Navbar(props){
 
         props.searchTerm(e);
     }
-    debugger;
+    
     if(props.index=='search'){
         return(
         <nav className="navbar navbar-expand-lg navbar-light bg-light">
@@ -113,9 +113,15 @@ function Navbar(props){
                     <h3>Logo</h3>
                 </div>
                 <ul>
-                    <li><a href="/#">product categories</a></li>
-                    <li><a href="/#">register as vendor</a></li>
-                    <li><a href="/#"><i class="fas fa-shopping-cart fa-2x"></i></a></li>
+                    <li>
+                        <form className="form-inline my-2 my-lg-0" onSubmit={(e)=>props.productSearch(e)}>
+                            <input className="form-control mr-sm-2" name = "search" type="search" placeholder="Search" aria-label="Search"/>
+                            <button className="btn btn-outline-success my-2 my-sm-0" type="submit" value="Search">Search</button>
+                        </form>
+                    </li>
+                    <Link className="nav-link" to="/products"><li><a href="/#">All Products</a></li></Link>
+                    <li><a href="/#" onClick={(e)=>props.vendorCreate(e)}>register as vendor</a></li>
+                    <Link className="nav-link" to="/cart"><li><i class="fas fa-shopping-cart fa-2x"></i></li></Link>
                     <li>{logToggle()}</li>
                 </ul>
             </nav>

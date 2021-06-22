@@ -63,7 +63,7 @@ class App extends Component {
         }
     }
     registerProduct = async (product) =>{
-        debugger;
+        
         let token = localStorage.getItem('token');
         let config = {headers: { Authorization: `Bearer ${token}` }};
         let result;
@@ -93,7 +93,7 @@ class App extends Component {
     }
 
     productSearch = async(event)=>{
-        debugger
+        
         event.preventDefault();
         let body = event.target.search.value+""
         console.log(body)
@@ -109,11 +109,40 @@ class App extends Component {
         try {
             let {data} = await axios.post('https://localhost:44394/api/authentication/', userReg);
             console.log('registered post', data);
+            debugger;
+            this.loginUser({UserName:userReg.UserName,Password:userReg.Password})
         }
         catch(error){
             alert(`Whoops! ${error}. Looks like we're having some technical difficulties.Try again later!`)
         }
     }
+
+    vendorCreate = async (event) =>{
+        event.preventDefault();
+        let token = localStorage.getItem('token');
+        let config = {headers: { Authorization: `Bearer ${token}` }};
+        let result;
+        debugger;
+        let vendor = await this.getVendor(token);
+        if (vendor.isVendor){
+            
+        }
+        else{
+            try{
+                vendor = {userId:this.state.user.id};
+                vendor = await axios.post('https://localhost:44394/api/vendor/create',vendor,config);
+                this.setState(
+                    {isVendor:true,
+                    vendor:vendor});
+            }
+            catch(e){
+                console.log(e)
+            }
+        }
+
+
+
+    } 
 
     getVendor = async (token) =>{
         
@@ -311,11 +340,11 @@ class App extends Component {
 
 
     render() {
-        debugger;
+        
         if (!this.state.isLoggedIn){
             return(
                 <div className="container-fluid">
-                    <Navbar index={this.state.renderIndex} escape={this.escapeSearch} productSearch={this.productSearch} vendor={this.state.isVendor} logout={() => this.wipeout()} isLoggedIn={this.state.isLoggedIn} login=""/>
+                    <Navbar vendorCreate={this.vendorCreate} index={this.state.renderIndex} escape={this.escapeSearch} productSearch={this.productSearch} vendor={this.state.isVendor} logout={() => this.wipeout()} isLoggedIn={this.state.isLoggedIn} login=""/>
                     <div className = "reg-form-wrapper">
                         <LogWrap registerUser={(regUser) => this.registerUser(regUser)} loginUser={(loginUser) => this.loginUser(loginUser)}/>
                     </div>
@@ -325,7 +354,7 @@ class App extends Component {
         else if(this.state.renderIndex==='search'){
             return(
             <div className="container-fluid">
-                <Navbar index={this.state.renderIndex} escape={this.escapeSearch} getProducts={this.getProducts} productSearch={this.productSearch} vendor={this.state.isVendor} logout={() => this.wipeout()} isLoggedIn={this.state.isLoggedIn} login=""/>  
+                <Navbar vendorCreate={this.vendorCreate} index={this.state.renderIndex} escape={this.escapeSearch} getProducts={this.getProducts} productSearch={this.productSearch} vendor={this.state.isVendor} logout={() => this.wipeout()} isLoggedIn={this.state.isLoggedIn} login=""/>  
                 <div className="container-fluid col-md-8">
                     <div className="row">
                         <div className="col-sm">
@@ -345,7 +374,7 @@ class App extends Component {
         }
         return (
             <div className="container-fluid">
-                <Navbar index={this.state.renderIndex} escape={this.escapeSearch} getProducts={this.getProducts} productSearch={this.productSearch} vendor={this.state.isVendor} logout={() => this.wipeout()} isLoggedIn={this.state.isLoggedIn} login=""/>
+                <Navbar vendorCreate={this.vendorCreate} index={this.state.renderIndex} escape={this.escapeSearch} getProducts={this.getProducts} productSearch={this.productSearch} vendor={this.state.isVendor} logout={() => this.wipeout()} isLoggedIn={this.state.isLoggedIn} login=""/>
                 
                 <div className="container-fluid col-md-8">
                     <div className="row">
