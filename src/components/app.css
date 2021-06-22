@@ -5,6 +5,7 @@
     overflow-x: hidden;
     background-image: url("https://i.redd.it/h6f70szyude31.png");
     background-size: cover;
+    color:white;
 }
 
 .reg-form-wrapper {
@@ -13,4 +14,8 @@
     align-items: center;
     justify-content: flex-start;
     margin-left: 80px;
+}
+
+td{
+    color:white;
 }
