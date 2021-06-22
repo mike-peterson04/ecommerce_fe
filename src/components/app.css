@@ -2,18 +2,19 @@
     width: 100vw;
     height: 100vh;
     padding: 0;
-    overflow: hidden;
-    background-image: url("https://images.hdqwalls.com/download/grid-waves-lu-2560x1440.jpg");
-    background-size: fit;
+    overflow-x: hidden;
+    background-image: url("https://i.redd.it/h6f70szyude31.png");
+    background-size: cover;
+    color: white;
 }
 
 .reg-form-wrapper {
     height: 100%;
-    width: 100%;
     display: flex;
     align-items: center;
-    justify-content: center;
-    /* width: 20vw;
-    height: 20vh;
-    margin-left: 30px; */
+    justify-content: flex-start;
+}
+
+td{
+    color: white;
 }
