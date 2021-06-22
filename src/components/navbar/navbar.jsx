@@ -1,13 +1,14 @@
 import "./navbar.css";
 import { Link } from 'react-router-dom';
 import { render } from "@testing-library/react";
+import './fontAwesome/css/all.min.css';
 
 function Navbar(props){
     const logToggle = () => {
         if (props.isLoggedIn){
-            return (<button className="btn btn-outline-success my-2 my-sm-0" onClick={() => props.logout()}>Logout</button>)
+            return (<button className="btn btn-warning my-2 my-sm-0" onClick={() => props.logout()}>Logout</button>)
         } else{
-            return (<button className="btn btn-outline-success my-2 my-sm-0">Login</button>)
+            return (<button className="btn btn-warning my-2 my-sm-0">Login</button>)
             //return (<button className="btn btn-outline-success my-2 my-sm-0" onClick={() => props.login()}>Login</button>)
         }
     }
@@ -114,7 +115,8 @@ function Navbar(props){
                 <ul>
                     <li><a href="/#">product categories</a></li>
                     <li><a href="/#">register as vendor</a></li>
-                    <li><a href="/#">shopping cart</a></li>
+                    <li><a href="/#"><i class="fas fa-shopping-cart fa-2x"></i></a></li>
+                    <li>{logToggle()}</li>
                 </ul>
             </nav>
             // <nav className="navbar navbar-expand-lg navbar-light bg-light">
