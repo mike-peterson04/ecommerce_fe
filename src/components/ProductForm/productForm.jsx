@@ -5,7 +5,6 @@ import './productForm.css';
 const ProductForm = (props) => {
 
     const Submittal = () => {
-        debugger;
         const newProduct = {
             Name: inputs.name,
             Price: parseFloat(inputs.price),
