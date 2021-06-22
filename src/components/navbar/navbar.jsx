@@ -1,5 +1,6 @@
 import "./navbar.css";
 import { Link } from 'react-router-dom';
+import { render } from "@testing-library/react";
 
 function Navbar(props){
     const logToggle = () => {
@@ -15,8 +16,39 @@ function Navbar(props){
 
         props.searchTerm(e);
     }
+    debugger;
+    if(props.index=='search'){
+        return(
+        <nav className="navbar navbar-expand-lg navbar-light bg-light">
+                <a class="navbar-brand" href="/#">Home</a>
+                <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span className="navbar-toggler-icon"></span>
+                </button>
+                <div className="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul className="navbar-nav mr-auto">
+                        
+                            <li className="nav-item"><a href='' className='nav-link' onClick={(e)=>props.escape(e)}>Return to main page</a></li>
+                            <form className="form-inline my-2 my-lg-0" onSubmit={(e)=>props.productSearch(e)}>
+                                <input className="form-control mr-sm-2" name = "search" type="search" placeholder="Search" aria-label="Search"></input>
 
-    if(props.vendor){
+                                
+                                <button className="btn btn-outline-success my-2 my-sm-0" type="submit" value="Search">Search</button>
+
+
+
+                            </form>
+                    </ul>
+                    
+                    
+                    <div className="logoutLblPos">
+                        {logToggle()}
+                    </div>
+                </div>
+            </nav>)
+
+    }
+
+    else if(props.vendor){
         return(
             <nav className="navbar navbar-expand-lg navbar-light bg-light">
                 <a class="navbar-brand" href="/#">Home</a>
@@ -37,10 +69,9 @@ function Navbar(props){
                             <form className="form-inline my-2 my-lg-0" onSubmit={(e)=>props.productSearch(e)}>
                                 <input className="form-control mr-sm-2" name = "search" type="search" placeholder="Search" aria-label="Search"></input>
 
-                                <Link to="/search">
+                                
                                 <button className="btn btn-outline-success my-2 my-sm-0" type="submit" value="Search">Search</button>
 
-                                </Link>
 
 
                             </form>

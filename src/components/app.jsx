@@ -98,7 +98,8 @@ class App extends Component {
         let body = event.target.search.value+""
         console.log(body)
         let searchResult = await axios.get('https://localhost:44394/api/product/search/'+body);
-        this.setState({searchProducts:searchResult.data})
+        this.setState({searchProducts:searchResult.data,
+        renderIndex:'search'})
 
     }
 
@@ -188,6 +189,10 @@ class App extends Component {
             ShoppingCart: [],
             productsInCart: []
         })
+    }
+    escapeSearch = (event) =>{
+        event.preventDefault();
+        this.setState({renderIndex:'default'})
     }
 
     loginUser = async(userLogin) =>  {
@@ -306,19 +311,41 @@ class App extends Component {
 
 
     render() {
+        debugger;
         if (!this.state.isLoggedIn){
             return(
                 <div className="container-fluid">
-                    <Navbar productSearch={this.productSearch} vendor={this.state.isVendor} logout={() => this.wipeout()} isLoggedIn={this.state.isLoggedIn} login=""/>
+                    <Navbar index={this.state.renderIndex} escape={this.escapeSearch} productSearch={this.productSearch} vendor={this.state.isVendor} logout={() => this.wipeout()} isLoggedIn={this.state.isLoggedIn} login=""/>
                     <div className = "reg-form-wrapper">
                         <LogWrap registerUser={(regUser) => this.registerUser(regUser)} loginUser={(loginUser) => this.loginUser(loginUser)}/>
                     </div>
                 </div>
             )
         }
+        else if(this.state.renderIndex==='search'){
+            return(
+            <div className="container-fluid">
+                <Navbar index={this.state.renderIndex} escape={this.escapeSearch} getProducts={this.getProducts} productSearch={this.productSearch} vendor={this.state.isVendor} logout={() => this.wipeout()} isLoggedIn={this.state.isLoggedIn} login=""/>  
+                <div className="container-fluid col-md-8">
+                    <div className="row">
+                        <div className="col-sm">
+                        </div>
+                        <div className = "col-sm reg-form-wrapper my-5">
+                            
+                        <ResultViewer products={this.state.searchProducts} addToCart={(product) => this.addToCart(product)} product={this.state.currentProduct} productDetails={(product) => this.toggleDetailsModal(product)} toggleModal={(product) => this.toggleReviewModal(product)} isAuthed={true} />
+                        <ReviewModal product={this.state.currentProduct} toggleModal={(product) => this.toggleReviewModal(product)} modalState={this.state.reviewModalState}/>
+                        <DetailsModal rating={this.state.averageRating} category={this.state.activeCategory} reviews={this.state.reviews} product={this.state.currentProduct} addToCart={(product) => this.addToCart(product)} toggleModal={(product) => this.toggleDetailsModal(product)} modalState={this.state.detailsModalState} addToCart={(item) => this.addToCart(item)}/>
+                        </div>
+                        <div className="col-sm">
+                        </div>
+                    </div>
+                </div>
+            </div>)
+
+        }
         return (
             <div className="container-fluid">
-                <Navbar getProducts={this.getProducts} productSearch={this.productSearch} vendor={this.state.isVendor} logout={() => this.wipeout()} isLoggedIn={this.state.isLoggedIn} login=""/>
+                <Navbar index={this.state.renderIndex} escape={this.escapeSearch} getProducts={this.getProducts} productSearch={this.productSearch} vendor={this.state.isVendor} logout={() => this.wipeout()} isLoggedIn={this.state.isLoggedIn} login=""/>
                 
                 <div className="container-fluid col-md-8">
                     <div className="row">
