@@ -17,6 +17,7 @@ const LoginForm = (props) => {
 
     return (
         <div className="form">
+            <h4>Login</h4>
             <form onSubmit = {handleSubmit} >
                 <div className="form-group d-flex flex-column">
                     <label htmlFor="userName">Username: </label>
